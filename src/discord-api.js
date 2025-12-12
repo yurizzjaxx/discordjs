@@ -143,7 +143,7 @@ class DiscordAPI {
     }
   }
   // Fetch User and bot (TypeToken 0) Found error with browser user 1 or bot 2 support
-  async asyncGuildsIdChannel(id, callblock, error) {
+  async GuildsIdChannel(id, callblock, error) {
     try {
       this.r = await fetch(`${this.api}guilds/${id}/channels`, {
         method: "GET",
