@@ -1,4 +1,4 @@
-### Discord API Easy Service
+# Discord API Easy Service
 
 Uma biblioteca JavaScript simplificada para interação com a API do Discord, desenvolvida por yurizzjaxx.
 
@@ -242,7 +242,7 @@ client.UsersMeChannel(
 
 **🔧 Solução de Problemas**
 
-Erro "Failed to fetch"
+**Erro "Failed to fetch"**
 
 Certifique-se de:
 
@@ -250,21 +250,21 @@ Certifique-se de:
 2. O tipo de token corresponde ao endpoint
 3. Não há bloqueios de CORS (em navegadores)
 
-WebSocket não conecta
+**WebSocket não conecta**
 
 1. Verifique se o token é válido
 2. Confirme a versão da API (atualmente v9)
 3. Verifique a conexão de internet
 
-📄 Licença
+**📄 Licença**
 
 Desenvolvido por yurizzjaxx. Verifique o repositório GitHub para mais informações sobre licenciamento.
 
-🤝 Contribuindo
+**🤝 Contribuindo**
 
 Contribuições são bem-vindas! Envie suas sugestões e issues no GitHub.
 
 ---
 
-Desenvolvido com ❤️ por yurizzjaxx
+**Desenvolvido com ❤️ por yurizzjaxx**
 Discord API Easy Service - Simplificando a integração com Discord
