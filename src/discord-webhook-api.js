@@ -12,8 +12,8 @@ class DiscordWebhookAPI {
       }
     }
   }
-  avatarUrl() {
-    this.objTab.avatar_url;
+  avatarUrl(url) {
+    this.objTab.avatar_url = url;
     return this
   }
   username(name) {
@@ -60,7 +60,7 @@ class Embeds {
     return this
   }
   authorIcon(url) {
-    this.embeds.author = {...this.embeds.author, iconUrl: url};
+    this.embeds.author = {...this.embeds.author, icon_url: url};
     return this
   }
   title(text) {
@@ -72,7 +72,7 @@ class Embeds {
     return this
   }
   description(text) {
-    this.embeds = text;
+    this.embeds.description = text;
     return this
   }
   image(url) {
@@ -80,7 +80,7 @@ class Embeds {
     return this
   }
   thumbnail(url) {
-    this.embeds.image = {...this.embeds.image, thumbnail: {url}};
+    this.embeds.thumbnail = {url};
     return this
   }
   footer(text) {
@@ -88,7 +88,7 @@ class Embeds {
     return this
   }
   footerIcon(url) {
-    this.embeds.footer = {...this.embeds.footer, iconUrl: url};
+    this.embeds.footer = {...this.embeds.footer, icon_url: url};
   }
   toJson() {
     return this.embeds;

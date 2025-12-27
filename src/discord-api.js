@@ -23,7 +23,7 @@ class disTool {
     if (boolAnim) {
       return _disMedia() + `emojis/${id}.${anim ? "gif" : "png"}?size=${sizes}`
     } else {
-      return _disMedia() + `emojis/${id}.png?v=1`
+      return _disMedia() + `emojis/${id}.png` // false emoji in animated remove normal 
     }
   }
 }
@@ -42,7 +42,7 @@ class BotMessage {
     return this
   }
   messageEmbedAuthorIcon(url) {
-    this.botEmbed.author = {...this.botEmbed.author, iconUrl: url};
+    this.botEmbed.author = {...this.botEmbed.author, icon_url: url};
     return this
   }
   messageEmbedsTitle(text) {
@@ -62,7 +62,7 @@ class BotMessage {
     return this
   }
   messageEmbedThumbnail(url) {
-    this.botEmbed.image = {...this.botEmbed.image, thumbnail: {url}};
+    this.botEmbed.thumbnail = {url};
     return this
   }
   messageEmbedFooter(text) {
@@ -70,7 +70,7 @@ class BotMessage {
     return this
   }
   messageEmbedFooterIcon(url) {
-    this.botEmbed.footer = {...this.botEmbed.footer, iconUrl: url};
+    this.botEmbed.footer = {...this.botEmbed.footer, icon_url: url};
     return this
   }
   toJson() {
