@@ -28,7 +28,7 @@ class disTool {
   }
 }
 
-class BotMessage {it 
+class BotMessage {
   constructor() {
     this.botMeg = {}
     this.botEmbed = {}
