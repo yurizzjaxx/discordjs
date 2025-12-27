@@ -21,10 +21,64 @@ class disTool {
   }
   static emoji(id, anim, boolAnim, sizes) {
     if (boolAnim) {
-      return _disMedia() + `emojis/${id}.${anim ? "gif" : "png"}`
+      return _disMedia() + `emojis/${id}.${anim ? "gif" : "png"}?size=${sizes}`
     } else {
-      return _disMedia() + `emojis/${id}.png`
+      return _disMedia() + `emojis/${id}.png?v=1`
     }
+  }
+}
+
+class BotMessage {it 
+  constructor() {
+    this.botMeg = {}
+    this.botEmbed = {}
+  }
+  content(text) {
+    this.botMeg.content = text;
+    return this
+  }
+  messageEmbedAuthor(name) {
+    this.botEmbed.author = {name};
+    return this
+  }
+  messageEmbedAuthorIcon(url) {
+    this.botEmbed.author = {...this.botEmbed.author, iconUrl: url};
+    return this
+  }
+  messageEmbedsTitle(text) {
+    this.botEmbed.title = text;
+    return this
+  }
+  messageEmbedUrl(url) {
+    this.botEmbed.url = url;
+    return this
+  }
+  messageEmbedDescription(text) {
+    this.botEmbed.description = text;
+    return this
+  }
+  messageEmbedImage(url) {
+    this.botEmbed.image = {url};
+    return this
+  }
+  messageEmbedThumbnail(url) {
+    this.botEmbed.image = {...this.botEmbed.image, thumbnail: {url}};
+    return this
+  }
+  messageEmbedFooter(text) {
+    this.botEmbed.footer = {text};
+    return this
+  }
+  messageEmbedFooterIcon(url) {
+    this.botEmbed.footer = {...this.botEmbed.footer, iconUrl: url};
+    return this
+  }
+  toJson() {
+    this.paydata = this.botMeg;
+    if (this.botEmbed) {
+      this.paydata.embeds = [this.botEmbed];
+    }
+    return this.paydata;
   }
 }
 
@@ -34,6 +88,8 @@ class DiscordAPI {
     this.wsApi = "wss://gateway.discord.gg/?v=9&encoding=json"
   }
   AuthToken(type, token) {
+    this.voiceServerChannelCallblock = null;
+    this.voiceStateChannelCallblock = null;
     this.disconnectCallblock = null;
     this.channelCallblock = null;
     this.authorCallblock = null;
@@ -198,9 +254,9 @@ class DiscordAPI {
       op: 2,
       d: {
         token: this.wssToken,
-        intents: 522,
+        intents: 512,
         properties: {
-          $os: "Linux",
+          $os: "linux",
           $browser: "chrome",
           $device: "chrome"
         },
@@ -245,11 +301,6 @@ class DiscordAPI {
     switch (op) {
       case 0:
         switch (t) {
-          case 'MESSAGE_CREATE':
-            if (this.channelCallblock) {
-              this.channelCallblock(d)
-            }
-          break;
           case 'READY':
             if (d.user) {
               this._d = d.user
@@ -258,6 +309,21 @@ class DiscordAPI {
             }
             if (this.authorCallblock) {
               this.authorCallblock(this._d)
+            }
+          break;
+          case 'MESSAGE_CREATE':
+            if (this.channelCallblock) {
+              this.channelCallblock(d)
+            }
+          break;
+          case 'VOICE_STATE_UPDATE':
+            if (this.voiceStateChannelCallblock) {
+              this.voiceStateChannelCallblock(d)
+            }
+          break;
+          case 'VOICE_SERVER_UPDATE':
+            if (this.voiceServerChannelCallblock) {
+              this.voiceServerChannelCallblock(d)
             }
           break;
         }
@@ -280,6 +346,28 @@ class DiscordAPI {
     this.jsonLog = callblock
     return this
   }
+  VoiceChannel(gid, cid, channelDisabled, muteDisabled, deafDisabled) {
+    if (!this.ws) {
+      return;
+    }
+    this.ws.send(JSON.stringify({
+      op: 4,
+      d: {
+        guild_id: gid,
+        channel_id: channelDisabled ? cid : null,
+        self_mute: muteDisabled,
+        self_deaf: deafDisabled
+      }
+    }))
+  }
+  onVoiceStateChannel(callblock) {
+    this.voiceStateChannelCallblock = callblock;
+    return this
+  }
+  onVoiceServerChannel(callblock) {
+    this.voiceServerChannelCallblock = callblock;
+    return this
+  }
   onChannel(callblock) {
     this.channelCallblock = callblock;
     return this
@@ -296,7 +384,12 @@ class DiscordAPI {
     this.disconnectCallblock = callblock
     return this
   }
-  
+  isConnect() {
+    if (this.ws) {
+      return true
+    }
+    return false
+  }
 }
 
 class disList {
