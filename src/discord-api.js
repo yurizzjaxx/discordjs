@@ -261,7 +261,7 @@ class DiscordAPI {
           $device: "chrome"
         },
         presence: {
-          status: statusType
+          status: statusType === "inv" ? "invisible" : statusType === "on" ? "online" : statusType
         }
       }
     }
