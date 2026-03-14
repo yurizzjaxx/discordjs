@@ -92,6 +92,7 @@ class DiscordAPI {
     this.voiceStateChannelCallblock = null;
     this.disconnectCallblock = null;
     this.channelCallblock = null;
+    this.channelDeleteCallblock = null;
     this.authorCallblock = null;
     this.timeCallblock = null;
     this.jsonLog = null;
@@ -234,7 +235,7 @@ class DiscordAPI {
     }
   }
   // Fetch User and bot (NO TypeToken 0 found) Gateway service
-  Connect(statusType) {
+  Connect(statusType = "on") {
     if (this.ws) {
       this.ws.send(JSON.stringify({
         op:  null,
@@ -316,6 +317,11 @@ class DiscordAPI {
               this.channelCallblock(d)
             }
           break;
+          case 'MESSAGE_DELETE':
+            if (this.channelDeleteCallblock) {
+              this.channelDeleteCallblock(d)
+            }
+          break;
           case 'VOICE_STATE_UPDATE':
             if (this.voiceStateChannelCallblock) {
               this.voiceStateChannelCallblock(d)
@@ -370,6 +376,10 @@ class DiscordAPI {
   }
   onChannel(callblock) {
     this.channelCallblock = callblock;
+    return this
+  }
+  onDeleteChannel(callblock) {
+    this.channelDeleteCallblock = callblock;
     return this
   }
   onTime(callblock) {
